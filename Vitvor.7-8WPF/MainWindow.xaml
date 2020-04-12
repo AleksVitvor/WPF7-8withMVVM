@@ -1,0 +1,160 @@
+﻿<Window x:Class="Vitvor._7_8WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Vitvor._7_8WPF" xmlns:col="clr-namespace:System.Collections;assembly=mscorlib" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Icon="D:\\icon.png" Background="Bisque">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Aqua"></Setter>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="Bisque"></Setter>
+            <Setter Property="BorderBrush" Value="Bisque"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="Bisque"></Setter>
+            <Setter Property="BorderBrush" Value="Bisque"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <DataTemplate x:Key="DateTemplate">
+                <TextBlock Text="{Binding Date, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:dd.MM.yyyy}}" HorizontalAlignment="Center"/>
+            </DataTemplate>
+            <DataTemplate x:Key="EditingDateTemplate">
+                <DatePicker SelectedDate="{Binding Date, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTemplate>
+            <DataTemplate x:Key="EndTemplate">
+                <TextBlock Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:dd.MM.yyyy}}" HorizontalAlignment="Center"/>
+            </DataTemplate>
+            <DataTemplate x:Key="EditingEndTemplate">
+                <DatePicker SelectedDate="{Binding Duration, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTemplate>
+        </Grid.Resources>
+        <DataGrid x:Name="AllInfo" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding TODO}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13" Grid.RowSpan="12" SelectedItem="{Binding SelectedTask}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Краткое описание" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                <DataGridComboBoxColumn Header="Приоритет" SelectedValueBinding="{Binding Path=Priority, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridComboBoxColumn.ItemsSource>
+                        <col:ArrayList>
+                            <sys:String>Высокий</sys:String>
+                            <sys:String>Средний</sys:String>
+                            <sys:String>Низкий</sys:String>
+                        </col:ArrayList>
+                    </DataGridComboBoxColumn.ItemsSource>
+                </DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="Периодичность" SelectedValueBinding="{Binding Path=Periodicity, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridComboBoxColumn.ItemsSource>
+                        <col:ArrayList>
+                            <sys:String>Один раз</sys:String>
+                            <sys:String>Ежедневно</sys:String>
+                            <sys:String>Ежемесячно</sys:String>
+                        </col:ArrayList>
+                    </DataGridComboBoxColumn.ItemsSource>
+                </DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="Категория" SelectedValueBinding="{Binding Path=Category, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridComboBoxColumn.ItemsSource>
+                        <col:ArrayList>
+                            <sys:String>Учеба</sys:String>
+                            <sys:String>Работа</sys:String>
+                            <sys:String>Дом</sys:String>
+                            <sys:String>Курсы</sys:String>
+                        </col:ArrayList>
+                    </DataGridComboBoxColumn.ItemsSource>
+                </DataGridComboBoxColumn>
+                <DataGridComboBoxColumn Header="Статус" SelectedValueBinding="{Binding Path=State, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridComboBoxColumn.ItemsSource>
+                        <col:ArrayList>
+                            <sys:String>Завершена</sys:String>
+                            <sys:String>Отложена</sys:String>
+                            <sys:String>В процессе выполнения</sys:String>
+                        </col:ArrayList>
+                    </DataGridComboBoxColumn.ItemsSource>
+                </DataGridComboBoxColumn>
+                <DataGridTemplateColumn Header="Начало" CellTemplate="{StaticResource DateTemplate}" CellEditingTemplate="{StaticResource EditingDateTemplate}"/>
+                <DataGridTemplateColumn Header="Окончание" CellTemplate="{StaticResource EndTemplate}" CellEditingTemplate="{StaticResource EditingEndTemplate}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Grid.Row="0" Grid.Column="13" Grid.ColumnSpan="5" HorizontalAlignment="Center" Content="Полное описание"/>
+        <TextBox TextWrapping="Wrap" Grid.Row="1" Grid.Column="13" Grid.ColumnSpan="5" Grid.RowSpan="11" Text="{Binding Path=FullDescription}" DataContext="{Binding SelectedTask}"></TextBox>
+        <Button Content="Добавить" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="2" Command="{Binding Add}"></Button>
+        <Button Content="Удалить" Grid.Column="2" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="2" Command="{Binding Delete}" CommandParameter="{Binding SelectedTask}"></Button>
+        <Label Content="Выберите категорию" Grid.Row="12" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
+        <ComboBox x:Name="Category" Grid.Row="13" Grid.Column="4" Grid.ColumnSpan="3">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding Search}" CommandParameter="Category"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ComboBoxItem>Учеба</ComboBoxItem>
+            <ComboBoxItem>Работа</ComboBoxItem>
+            <ComboBoxItem>Курсы</ComboBoxItem>
+            <ComboBoxItem>Дом</ComboBoxItem>
+        </ComboBox>
+        <Label Content="Выберите приоритет" Grid.Row="12" Grid.Column="7" Grid.ColumnSpan="3"/>
+        <ComboBox x:Name="Priority" Grid.Row="13" Grid.Column="7" Grid.ColumnSpan="3">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding Search}" CommandParameter="Priority"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ComboBoxItem>Высокий</ComboBoxItem>
+            <ComboBoxItem>Средний</ComboBoxItem>
+            <ComboBoxItem>Низкий</ComboBoxItem>
+        </ComboBox>
+        <Label Content="Начало" Grid.Row="12" Grid.Column="10" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+        <xctk:MaskedTextBox x:Name="Date" Mask="99-99-9999" Grid.Row="13" Grid.Column="10" Grid.ColumnSpan="2">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="KeyDown">
+                    <i:InvokeCommandAction Command="{Binding Search}" CommandParameter="Date"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </xctk:MaskedTextBox>
+        <Button Grid.Column="0" Grid.Row="14" Content="Сбросить" Grid.RowSpan="2" Grid.ColumnSpan="2" Command="{Binding Reset}"/>
+        <Button Grid.Column="0" Grid.Row="16" Content="Сохранить" Grid.RowSpan="2" Grid.ColumnSpan="4" Command="{Binding Save}"/>
+        <Button Grid.Column="2" Grid.Row="14" Content="Загрузить" Grid.RowSpan="2" Grid.ColumnSpan="2" Command="{Binding Load}"/>
+    </Grid>
+</Window>
