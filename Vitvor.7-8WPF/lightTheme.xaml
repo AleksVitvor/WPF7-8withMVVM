@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Vitvor._7_8WPF">
+    <Style x:Key="ButtonStyle" TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Button.Background" Value="Aqua" />
+            <Setter Property="Button.Foreground" Value="Black" />
+            <Setter Property="Button.FontFamily" Value="Verdana" />
+            <Setter Property="Button.Margin" Value="10" />
+        </Style.Setters>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Foreground" Value="Red" />
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsPressed" Value="True" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Foreground" Value="Green" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="DataGridStyle" TargetType="DataGrid">
+        <Setter Property="Background" Value="Bisque"></Setter>
+        <Setter Property="BorderBrush" Value="Bisque"></Setter>
+    </Style>
+    <Style x:Key="TextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="Bisque"></Setter>
+        <Setter Property="BorderBrush" Value="Bisque"></Setter>
+    </Style>
+</ResourceDictionary>

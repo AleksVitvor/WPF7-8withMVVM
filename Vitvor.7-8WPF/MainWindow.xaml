@@ -3,21 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Vitvor._7_8WPF" xmlns:col="clr-namespace:System.Collections;assembly=mscorlib" xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:control = "clr-namespace:Vitvor._7_8WPF" 
+        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib" 
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Icon="D:\\icon.png" Background="Bisque">
+        Title="MainWindow" Height="450" Width="800" Background="Bisque">
     <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="Aqua"></Setter>
-        </Style>
-        <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="Bisque"></Setter>
-            <Setter Property="BorderBrush" Value="Bisque"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Background" Value="Bisque"></Setter>
-            <Setter Property="BorderBrush" Value="Bisque"></Setter>
-        </Style>
+        <ControlTemplate TargetType="Button" x:Key="btTemplate">
+            <Border CornerRadius="25" BorderBrush="CadetBlue" BorderThickness="2"
+                    Background="LightBlue">
+                <ContentControl Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{DynamicResource Load}"/>
+            </Border>
+        </ControlTemplate>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -74,10 +73,10 @@
                 <DatePicker SelectedDate="{Binding Duration, UpdateSourceTrigger=PropertyChanged}"/>
             </DataTemplate>
         </Grid.Resources>
-        <DataGrid x:Name="AllInfo" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding TODO}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13" Grid.RowSpan="12" SelectedItem="{Binding SelectedTask}">
+        <DataGrid x:Name="AllInfo" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding TODO}" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13" Grid.RowSpan="12" SelectedItem="{Binding SelectedTask}" Style="{DynamicResource DataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Краткое описание" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
-                <DataGridComboBoxColumn Header="Приоритет" SelectedValueBinding="{Binding Path=Priority, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridTextColumn Header="{DynamicResource shortDefinition}" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                <DataGridComboBoxColumn Header="{DynamicResource Priority}" SelectedValueBinding="{Binding Path=Priority, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridComboBoxColumn.ItemsSource>
                         <col:ArrayList>
                             <sys:String>Высокий</sys:String>
@@ -86,7 +85,7 @@
                         </col:ArrayList>
                     </DataGridComboBoxColumn.ItemsSource>
                 </DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Header="Периодичность" SelectedValueBinding="{Binding Path=Periodicity, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridComboBoxColumn Header="{DynamicResource Periodicity}" SelectedValueBinding="{Binding Path=Periodicity, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridComboBoxColumn.ItemsSource>
                         <col:ArrayList>
                             <sys:String>Один раз</sys:String>
@@ -95,7 +94,7 @@
                         </col:ArrayList>
                     </DataGridComboBoxColumn.ItemsSource>
                 </DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Header="Категория" SelectedValueBinding="{Binding Path=Category, UpdateSourceTrigger=PropertyChanged}">
+                <DataGridComboBoxColumn Header="{DynamicResource Category}" SelectedValueBinding="{Binding Path=Category, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridComboBoxColumn.ItemsSource>
                         <col:ArrayList>
                             <sys:String>Учеба</sys:String>
@@ -105,23 +104,15 @@
                         </col:ArrayList>
                     </DataGridComboBoxColumn.ItemsSource>
                 </DataGridComboBoxColumn>
-                <DataGridComboBoxColumn Header="Статус" SelectedValueBinding="{Binding Path=State, UpdateSourceTrigger=PropertyChanged}">
-                    <DataGridComboBoxColumn.ItemsSource>
-                        <col:ArrayList>
-                            <sys:String>Завершена</sys:String>
-                            <sys:String>Отложена</sys:String>
-                            <sys:String>В процессе выполнения</sys:String>
-                        </col:ArrayList>
-                    </DataGridComboBoxColumn.ItemsSource>
-                </DataGridComboBoxColumn>
-                <DataGridTemplateColumn Header="Начало" CellTemplate="{StaticResource DateTemplate}" CellEditingTemplate="{StaticResource EditingDateTemplate}"/>
-                <DataGridTemplateColumn Header="Окончание" CellTemplate="{StaticResource EndTemplate}" CellEditingTemplate="{StaticResource EditingEndTemplate}"/>
+                <DataGridComboBoxColumn Header="{DynamicResource State}" SelectedValueBinding="{Binding Path=State, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{DynamicResource StateVariants}"/>
+                <DataGridTemplateColumn Header="{DynamicResource Start}" CellTemplate="{StaticResource DateTemplate}" CellEditingTemplate="{StaticResource EditingDateTemplate}"/>
+                <DataGridTemplateColumn Header="{DynamicResource End}" CellTemplate="{StaticResource EndTemplate}" CellEditingTemplate="{StaticResource EditingEndTemplate}"/>
             </DataGrid.Columns>
         </DataGrid>
         <Label Grid.Row="0" Grid.Column="13" Grid.ColumnSpan="5" HorizontalAlignment="Center" Content="Полное описание"/>
-        <TextBox TextWrapping="Wrap" Grid.Row="1" Grid.Column="13" Grid.ColumnSpan="5" Grid.RowSpan="11" Text="{Binding Path=FullDescription}" DataContext="{Binding SelectedTask}"></TextBox>
-        <Button Content="Добавить" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="2" Command="{Binding Add}"></Button>
-        <Button Content="Удалить" Grid.Column="2" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="2" Command="{Binding Delete}" CommandParameter="{Binding SelectedTask}"></Button>
+        <TextBox x:Name="FullInf" TextWrapping="Wrap" Grid.Row="1" Grid.Column="13" Grid.ColumnSpan="5" Grid.RowSpan="11" Text="{Binding Path=FullDescription}" DataContext="{Binding SelectedTask}" Style="{DynamicResource TextBoxStyle}"></TextBox>
+        <Button Content="{DynamicResource Add}" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="2" Command="{Binding Add}" Style="{DynamicResource ButtonStyle}"></Button>
+        <Button Content="{DynamicResource Delete}" Grid.Column="2" Grid.Row="12" Grid.ColumnSpan="2" Grid.RowSpan="2" Command="{Binding Delete}" CommandParameter="{Binding SelectedTask}" Style="{DynamicResource ButtonStyle}"></Button>
         <Label Content="Выберите категорию" Grid.Row="12" Grid.Column="4" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
         <ComboBox x:Name="Category" Grid.Row="13" Grid.Column="4" Grid.ColumnSpan="3">
             <i:Interaction.Triggers>
@@ -153,8 +144,25 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </xctk:MaskedTextBox>
-        <Button Grid.Column="0" Grid.Row="14" Content="Сбросить" Grid.RowSpan="2" Grid.ColumnSpan="2" Command="{Binding Reset}"/>
-        <Button Grid.Column="0" Grid.Row="16" Content="Сохранить" Grid.RowSpan="2" Grid.ColumnSpan="4" Command="{Binding Save}"/>
-        <Button Grid.Column="2" Grid.Row="14" Content="Загрузить" Grid.RowSpan="2" Grid.ColumnSpan="2" Command="{Binding Load}"/>
+        <Button Grid.Column="0" Grid.Row="14" Content="{DynamicResource Reset}" Grid.RowSpan="2" Grid.ColumnSpan="2" Command="{Binding Reset}" Style="{DynamicResource ButtonStyle}"/>
+        <Button Grid.Column="0" Grid.Row="16" Content="{DynamicResource Save}" Grid.RowSpan="2" Grid.ColumnSpan="4" Command="{Binding Save}" Style="{DynamicResource ButtonStyle}"/>
+        <Button Grid.Column="2" Grid.Row="14" Content="{DynamicResource Load}" Grid.RowSpan="2" Grid.ColumnSpan="2" Command="{Binding Load}" Style="{DynamicResource ButtonStyle}" Template="{StaticResource btTemplate}"/>
+        <DockPanel Grid.Column="16" Grid.Row="16">
+            <Menu DockPanel.Dock="Top" Background="{x:Null}" >
+                <MenuItem x:Name="menuLanguage" Header="{DynamicResource m_menu_language}" />
+            </Menu>
+        </DockPanel>
+        <ComboBox x:Name="Themes" Grid.Column="17" Grid.Row="16">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ChangeTheme}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ComboBoxItem>dark</ComboBoxItem>
+            <ComboBoxItem>light</ComboBoxItem>
+        </ComboBox>
+        <Button x:Name="Undo" Content="Undo" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="16" Grid.RowSpan="2" Style="{DynamicResource ButtonStyle}" Command="{Binding Undo}"/>
+        <Button x:Name="Redo" Content="Redo" Grid.Column="7" Grid.ColumnSpan="2" Grid.Row="16" Grid.RowSpan="2" Style="{DynamicResource ButtonStyle}" Command="{Binding Redo}"/>
+        <control:MyCustomControl Content="Click" Grid.Column="16" Grid.Row="17" Click="customControl_Click"></control:MyCustomControl>
     </Grid>
 </Window>
